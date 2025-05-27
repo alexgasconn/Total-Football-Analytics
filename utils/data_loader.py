@@ -5,14 +5,19 @@ from datafc.sofascore import (
 )
 
 def load_match_data(cfg):
-    return match_data(
-        tournament_id=cfg["tournament_id"],
-        season_id=cfg["season_id"],
-        week_number=cfg["week"],
-        data_source=cfg["data_source"],
-        enable_json_export=False,
-        enable_excel_export=False
-    )
+    try:
+        return match_data(
+            tournament_id=cfg["tournament_id"],
+            season_id=cfg["season_id"],
+            week_number=cfg["week"],
+            data_source=cfg["data_source"],
+            enable_json_export=False,
+            enable_excel_export=False
+        )
+    except Exception as e:
+        print(f"[load_match_data] Error: {e}")
+        return pd.DataFrame()  # Return empty to prevent app crash
+
 
 def load_lineups(match_df, cfg):
     return lineups_data(
